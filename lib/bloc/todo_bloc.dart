@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:udevs_todo/core/assets/constants/storage_keys.dart';
 import 'package:udevs_todo/core/utils/utils.dart';
 import 'package:udevs_todo/data/models/todo_hive_model.dart';
 
@@ -16,7 +18,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       },
     );
     on<AddTodoEvent>(
-      (event, emit) {
+      (event, emit) async {
         if (event.title == '') {
           MyUtils.getMyToast(message: 'Please, fill the field');
         } else if (event.selectedCategoryId == -1) {
@@ -27,10 +29,19 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
           MyUtils.getMyToast(message: 'Task time must be in the future');
         } else {
           Navigator.of(event.context).pop();
-          // here add todo
-          // here add natifation with schedule
+          // add todo
+          emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
+          try {
+            var todoBox = Hive.box<TodoHiveModel>(StorageKeys.todoBox);
+            TodoHiveModel todo = TodoHiveModel(categoryId: event.selectedCategoryId, title: event.title, dateTime: event.dateTime!, isDone: false);
+            await todoBox.add(todo);
+            // TODO: here add natifation with schedule
 
-          add(GetTodosEvent());
+            add(GetTodosEvent());
+            emit(state.copyWith(todoStatus: FormzStatus.submissionSuccess));
+          } catch (e) {
+            emit(state.copyWith(todoStatus: FormzStatus.submissionFailure, errMessage: e.toString()));
+          }
         }
       },
     );

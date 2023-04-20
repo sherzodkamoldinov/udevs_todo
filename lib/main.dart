@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:udevs_todo/bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/constants/storage_keys.dart';
 import 'package:udevs_todo/data/models/todo_hive_model.dart';
 import 'package:udevs_todo/presentation/tabs/tab_page.dart';
@@ -29,14 +31,19 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        primarySwatch: Colors.lightBlue,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<TodoBloc>(create: (context) => TodoBloc(),)
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          primarySwatch: Colors.lightBlue,
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue),
+        ),
+        home: TabPage(),
       ),
-      home: TabPage(),
     );
   }
 }
