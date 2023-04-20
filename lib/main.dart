@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:udevs_todo/presentation/tabs/tab_page.dart';
 
 import 'presentation/on_boarding/pages/on_boarding_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // INIT HIVE
+  await Hive.initFlutter();
+  await Hive.openBox('todo_box');
 
   // PORTRAIT VIEW SET
   SystemChrome.setPreferredOrientations([
