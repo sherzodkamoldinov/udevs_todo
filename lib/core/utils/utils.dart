@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
-import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
-
 class MyUtils {
   // message
   static getMyToast({required String message}) => Fluttertoast.showToast(
@@ -14,7 +12,6 @@ class MyUtils {
         textColor: AppColors.white,
         fontSize: 16,
       );
-
 
   // date time
   static Future<DateTime?> getDateTime({required BuildContext context}) async {
