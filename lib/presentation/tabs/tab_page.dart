@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/icons/app_icons.dart';
 import 'package:udevs_todo/presentation/common/widgets/circle_pink_button.dart';
+import 'package:udevs_todo/presentation/tabs/widgets/add_todo_item.dart';
 import 'package:udevs_todo/presentation/tabs/widgets/custom_appbar.dart';
 import 'package:udevs_todo/presentation/tabs/home/pages/home_page.dart';
 import 'package:udevs_todo/presentation/tabs/tasks/pages/task_page.dart';
@@ -29,6 +30,13 @@ class _TabPageState extends State<TabPage> {
       floatingActionButton: CirclePinkButton(
         onTap: () {
           // HERE ADD TODOS
+          showModalBottomSheet(
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            context: context,
+            builder: (context) => const AddTodoItem(),
+          );
         },
       ),
       body: IndexedStack(
