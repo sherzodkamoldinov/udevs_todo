@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
-import 'package:udevs_todo/core/assets/constants/icons/app_icons.dart';
+import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/presentation/common/widgets/circle_pink_button.dart';
 import 'package:udevs_todo/presentation/tabs/widgets/add_todo_item.dart';
 import 'package:udevs_todo/presentation/tabs/widgets/custom_appbar.dart';

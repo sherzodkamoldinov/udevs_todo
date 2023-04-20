@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:udevs_todo/core/assets/constants/icons/app_icons.dart';
+import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
 
 class HomeEmptyItem extends StatelessWidget {
