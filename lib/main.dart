@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:udevs_todo/presentation/tabs/tab_page.dart';
 
-import 'features/on_boarding/presentation/pages/on_boarding_page.dart';
+import 'presentation/on_boarding/pages/on_boarding_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.lightBlue,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue),
       ),
-      home: OnBoardingPage(),
+      home: TabPage(),
     );
   }
 }

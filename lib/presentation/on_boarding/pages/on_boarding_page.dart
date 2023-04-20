@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/icons/app_icons.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
-import 'package:udevs_todo/features/common/widgets/w_button.dart';
+import 'package:udevs_todo/presentation/common/widgets/w_button.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
@@ -18,13 +18,17 @@ class OnBoardingPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
+
               Image.asset(AppIcons.onBoardingImg, height: 195),
               const SizedBox(height: 113),
+
               Text(
                 "Reminders made simple",
                 style: RubikFont.w500.copyWith(fontSize: 22),
               ),
+
               const Spacer(),
+
               WButton(
                 onTap: () {},
                 height: 56,
