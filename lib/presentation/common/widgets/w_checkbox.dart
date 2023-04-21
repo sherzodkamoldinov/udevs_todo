@@ -6,6 +6,7 @@ class WCheckBox extends StatefulWidget {
     super.key,
     required this.isSelected,
     required this.onChanged,
+    this.isConst = false
   });
 
   @override
@@ -13,6 +14,7 @@ class WCheckBox extends StatefulWidget {
 
   final bool isSelected;
   final ValueChanged<bool> onChanged;
+  final bool isConst;
 }
 
 class _WCheckBoxState extends State<WCheckBox> {
@@ -28,6 +30,7 @@ class _WCheckBoxState extends State<WCheckBox> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        widget.isConst ? (){}:
         setState(() {
           value = !value;
           widget.onChanged.call(value);

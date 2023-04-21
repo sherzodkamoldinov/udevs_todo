@@ -28,7 +28,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
           emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
           try {
             // add todo to cache
-            TodoHiveModel todo = TodoHiveModel(categoryId: event.selectedCategoryId, title: event.title, dateTime: event.dateTime!, isDone: false);
+            TodoHiveModel todo = TodoHiveModel(categoryId: event.selectedCategoryId, title: event.title, dateTime: event.dateTime!, isDone: false, id: event.id);
             await todoRepository.addTodo(todo: todo);
 
             // TODO: here add natifation with schedule
@@ -57,20 +57,35 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       },
     );
 
-    on<DeleteTodoEvent>(
-      (event, emit) {
-        // here delete todo
-        // here cancel notification service
+    on<UpdateTodoEvent>(
+      (event, emit) async {
+        // here update todo
+        emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
+        try {
+          await todoRepository.updateTodo(event.todoModel);
+          add(GetTodosEvent());
+        } catch (e) {
+          emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress, errMessage: e.toString()));
+        }
       },
     );
-    on<UpdateTodoEvent>(
-      (event, emit) {
-        // here update todo
+
+    on<DeleteTodoEvent>(
+      (event, emit) async {
+        // here delete todo
+        emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
+        try {
+          await todoRepository.deleteTodo(event.id);
+          add(GetTodosEvent());
+        } catch (e) {
+          emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress, errMessage: e.toString()));
+        }
+        // here cancel notification service
       },
     );
   }
 
-  int getTaskCountByCatgory(int categoryId) {
+  int getTodosCountByCatgory(int categoryId) {
     int count = 0;
     List<TodoHiveModel> todos = state.todos;
     for (var todo in todos) {
@@ -79,12 +94,21 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     return count;
   }
 
-  int getTasksCountByNotDone() {
+  int getTodosCountByNotDone() {
     int count = 0;
     List<TodoHiveModel> todos = state.todos;
     for (var todo in todos) {
       if (!todo.isDone) count++;
     }
     return count;
+  }
+
+   getTodosByCategory(int categoryId) {
+    List<TodoHiveModel> todosByCategory = [];
+    List<TodoHiveModel> todos = state.todos;
+    for (var todo in todos) {
+      if (todo.categoryId == categoryId) todosByCategory.add(todo);
+    }
+    return todosByCategory;
   }
 }

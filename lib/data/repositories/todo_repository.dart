@@ -12,7 +12,6 @@ class TodoRepository {
   }
 
   List<TodoHiveModel> getTodos() {
-    var todoBox = Hive.box<TodoHiveModel>(StorageKeys.todoBox);
     debugPrint('Got Datas Count: ${todoBox.values.toList().length}');
     // first sort
     List<TodoHiveModel> values = todoBox.values.toList();
@@ -21,5 +20,19 @@ class TodoRepository {
       debugPrint(element.dateTime.millisecondsSinceEpoch.toString());
     });
     return values.cast<TodoHiveModel>();
+  }
+
+  Future<void> updateTodo(TodoHiveModel todo) async {
+    int index = -1;
+    List<TodoHiveModel> values = todoBox.values.toList();
+    index = values.indexWhere((element) => element.id == todo.id);
+    await todoBox.putAt(index, todo);
+  }
+
+  Future<void> deleteTodo(int id) async{
+    int index = -1;
+    List<TodoHiveModel> values = todoBox.values.toList();
+    index = values.indexWhere((element) => element.id == id);
+    await todoBox.deleteAt(index);
   }
 }

@@ -37,7 +37,9 @@ class AddTodoEvent extends TodoEvent {
     required this.title,
     this.dateTime,
     required this.context,
+    required this.id,
   });
+  final int id;
   final String title;
   final int selectedCategoryId;
   final DateTime? dateTime;
@@ -45,6 +47,7 @@ class AddTodoEvent extends TodoEvent {
 
   @override
   List<Object?> get props => [
+    id,
         title,
         selectedCategoryId,
         dateTime,

@@ -138,6 +138,7 @@ class _AddTodoItemState extends State<AddTodoItem> {
                         selectedCategoryId: selectedCategoryId,
                         dateTime: pickedDate,
                         context: context,
+                        id: DateTime.now().millisecondsSinceEpoch,
                       ));
                       
                     },

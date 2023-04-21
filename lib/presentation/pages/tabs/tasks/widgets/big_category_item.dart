@@ -53,7 +53,7 @@ class BigCategoryItem extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           Text(
-            '${context.read<TodoBloc>().getTaskCountByCatgory(categoryModel.id)} Task',
+            '${context.read<TodoBloc>().getTodosCountByCatgory(categoryModel.id)} Task',
             style: RubikFont.w400.copyWith(
               fontSize: 10,
               color: AppColors.silverChalice,

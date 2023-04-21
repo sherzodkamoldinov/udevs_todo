@@ -13,71 +13,69 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
 
   @override
   Widget build(BuildContext context) {
-        return AppBar(
-          scrolledUnderElevation: 0.0,
-          elevation: 0.0,
-          flexibleSpace: Container(
-            width: double.infinity,
-            height: 108,
-            decoration:  const BoxDecoration(
-              gradient: LinearGradient(colors: AppColors.appBarGradient),
+    return AppBar(
+      scrolledUnderElevation: 0.0,
+      elevation: 0.0,
+      flexibleSpace: Container(
+        width: double.infinity,
+        height: 108,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(colors: AppColors.appBarGradient),
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            _circleItem(
+              size: 211,
+              left: -80,
+              top: -105,
             ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                _circleItem(
-                  size: 211,
-                  left: -80,
-                  top: -105,
-                ),
-                _circleItem(
-                  size: 93,
-                  left: 299,
-                  top: -18,
-                ),
-                Positioned(
-                  left: 19,
-                  right: 19,
-                  bottom: 11,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            _circleItem(
+              size: 93,
+              left: 299,
+              top: -18,
+            ),
+            Positioned(
+              left: 19,
+              right: 19,
+              bottom: 11,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Hello ${BlocProvider.of<SettingBloc>(context).state.user.name} 👋",
-                            style: RubikFont.w400.copyWith(
-                              fontSize: 18,
-                              color: AppColors.white,
-                            ),
-                          ),
-                          Text(
-                            BlocProvider.of<TodoBloc>(context,listen: true ).state.todos.isEmpty
-                            ? "Don't have tasks yet 🤨"
-                            : "Today you have ${BlocProvider.of<TodoBloc>(context, listen: true).getTasksCountByNotDone()} 🗒 tasks",
-                            overflow: TextOverflow.ellipsis,
-                            style: RubikFont.w400.copyWith(
-                              fontSize: 18,
-                              color: AppColors.white,
-                              
-                            ),
-                          ),
-                        ],
+                      Text(
+                        "Hello ${BlocProvider.of<SettingBloc>(context).state.user.name} 👋",
+                        style: RubikFont.w400.copyWith(
+                          fontSize: 18,
+                          color: AppColors.white,
+                        ),
                       ),
-                      const CircleAvatar(
-                        radius: 20,
-                        backgroundColor: AppColors.white,
-                        child: Icon(CupertinoIcons.person),
+                      Text(
+                        BlocProvider.of<TodoBloc>(context, listen: true).state.todos.isEmpty
+                            ? "Don't have tasks yet 🤨"
+                            : "Today you have ${BlocProvider.of<TodoBloc>(context, listen: true).getTodosCountByNotDone()} 🗒 tasks",
+                        overflow: TextOverflow.ellipsis,
+                        style: RubikFont.w400.copyWith(
+                          fontSize: 18,
+                          color: AppColors.white,
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  const CircleAvatar(
+                    radius: 20,
+                    backgroundColor: AppColors.white,
+                    child: Icon(CupertinoIcons.person),
+                  ),
+                ],
+              ),
             ),
-          ),
-        
+          ],
+        ),
+      ),
     );
   }
 

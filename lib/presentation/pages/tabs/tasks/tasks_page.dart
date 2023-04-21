@@ -6,6 +6,7 @@ import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
 import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
+import 'package:udevs_todo/presentation/common/widgets/w_scale_animation.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/home_empty_item.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/reminder_delegate.dart';
 import 'package:udevs_todo/presentation/pages/tabs/tasks/widgets/big_category_item.dart';
@@ -29,13 +30,10 @@ class TasksPage extends StatelessWidget {
                 slivers: [
                   // REMINDER TODOs
                   if (BlocProvider.of<SettingBloc>(context, listen: true).state.isReminderShow &&
-                    BlocProvider.of<TodoBloc>(context, listen: true).state.todos
-                        .where((element) => !element.isDone)
-                        .toList()
-                        .isNotEmpty)
-                  SliverPersistentHeader(
-                    delegate: ReminderDelegate(reminderTodo: BlocProvider.of<TodoBloc>(context, listen: true).state.todos[0]),
-                  ),
+                      BlocProvider.of<TodoBloc>(context, listen: true).state.todos.where((element) => !element.isDone).toList().isNotEmpty)
+                    SliverPersistentHeader(
+                      delegate: ReminderDelegate(reminderTodo: BlocProvider.of<TodoBloc>(context, listen: true).state.todos[0]),
+                    ),
                   SliverPadding(
                     padding: const EdgeInsets.only(left: 18, top: 10),
                     sliver: SliverToBoxAdapter(

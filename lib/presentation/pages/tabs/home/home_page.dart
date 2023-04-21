@@ -5,6 +5,7 @@ import 'package:udevs_todo/bloc/category_bloc/category_bloc.dart';
 import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
 import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
+import 'package:udevs_todo/core/utils/utils.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/home_empty_item.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/reminder_delegate.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/todo_item.dart';
@@ -38,6 +39,7 @@ class HomePage extends StatelessWidget {
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 18,
+                      vertical: 10,
                     ),
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
@@ -47,7 +49,7 @@ class HomePage extends StatelessWidget {
                           // debugPrint('INDEX ${index} : ${todos[index].dateTime.difference(todos[index - 1].dateTime).inDays}');
                           return TodoItem(
                             todo: todos[index],
-                            showDay: index == 0 || todos[index].dateTime.day != todos[index-1].dateTime.day,
+                            showDay: index == 0 || !MyUtils.isEqualDate(fstDate: todos[index].dateTime, secDate: todos[index-1].dateTime),
                             categories: categories,
                           );
                         },

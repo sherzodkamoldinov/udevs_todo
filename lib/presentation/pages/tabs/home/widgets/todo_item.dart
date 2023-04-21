@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
@@ -33,7 +35,7 @@ class TodoItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 15, top: 5),
             child: Text(
-              DateTime.now().difference(todo.dateTime).inDays == 0 ? "Today" : DateFormat.MMMEd().format(todo.dateTime),
+              MyUtils.isEqualDate(fstDate: todo.dateTime, secDate: DateTime.now()) ? "Today" : DateFormat.MMMEd().format(todo.dateTime),
               style: RubikFont.w500.copyWith(fontSize: 13, color: AppColors.shipCove),
             ),
           ),
@@ -43,6 +45,7 @@ class TodoItem extends StatelessWidget {
             extentRatio: 0.4,
             motion: const ScrollMotion(),
             children: [
+              // update todo slidable button
               WScaleAnimation(
                 onTap: () {
                   showModalBottomSheet(
@@ -52,6 +55,7 @@ class TodoItem extends StatelessWidget {
                     context: context,
                     builder: (context) => EditTodoItem(
                       categories: categories,
+                      todo: todo,
                     ),
                   );
                 },
@@ -71,9 +75,12 @@ class TodoItem extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // delete todo slidable button
               WScaleAnimation(
                 onTap: () {
-                  // here delete forever
+                  // here delete todo forever
+                  BlocProvider.of<TodoBloc>(context).add(DeleteTodoEvent(id: todo.id));
                 },
                 child: Container(
                   height: 35,

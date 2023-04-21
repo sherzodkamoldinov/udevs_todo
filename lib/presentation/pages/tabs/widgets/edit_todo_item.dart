@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
 import 'package:udevs_todo/core/utils/utils.dart';
 import 'package:udevs_todo/data/models/category_model/category_hive_model.dart';
+import 'package:udevs_todo/data/models/todo_model/todo_hive_model.dart';
 import 'package:udevs_todo/presentation/common/widgets/circle_pink_button.dart';
 import 'package:udevs_todo/presentation/common/widgets/w_button.dart';
 import 'package:udevs_todo/presentation/common/widgets/w_text_field.dart';
@@ -12,8 +15,9 @@ import 'package:udevs_todo/presentation/pages/tabs/widgets/add_todo_item_header_
 import 'package:udevs_todo/presentation/pages/tabs/widgets/category_item.dart';
 
 class EditTodoItem extends StatefulWidget {
-  const EditTodoItem({super.key, required this.categories});
+  const EditTodoItem({super.key, required this.categories, required this.todo});
   final List<CategoryHiveModel> categories;
+  final TodoHiveModel todo;
 
   @override
   State<EditTodoItem> createState() => _EditTodoItemState();
@@ -21,14 +25,14 @@ class EditTodoItem extends StatefulWidget {
 
 class _EditTodoItemState extends State<EditTodoItem> {
   late final TextEditingController controller;
- late DateTime pickedDate;
+  late DateTime pickedDate;
   late int selectedCategoryId;
 
   @override
   void initState() {
-    controller = TextEditingController(text: 'Edited task');
-    selectedCategoryId = 0;
-    pickedDate = DateTime.now();
+    controller = TextEditingController(text: widget.todo.title);
+    selectedCategoryId = widget.categories.indexWhere((element) => element.id == widget.todo.categoryId);
+    pickedDate = widget.todo.dateTime;
     super.initState();
   }
 
@@ -96,6 +100,7 @@ class _EditTodoItemState extends State<EditTodoItem> {
                           onTap: () async {
                             DateTime? dateTime = await MyUtils.getDateTime(
                               context: context,
+                              newInitialDate: widget.todo.dateTime,
                             );
                             if (dateTime != null) {
                               setState(() {
@@ -133,6 +138,17 @@ class _EditTodoItemState extends State<EditTodoItem> {
                       } else {
                         Navigator.of(context).pop();
                         // here edit task and some changes
+                        BlocProvider.of<TodoBloc>(context).add(
+                          UpdateTodoEvent(
+                            todoModel: TodoHiveModel(
+                              categoryId: selectedCategoryId,
+                              dateTime: pickedDate,
+                              id: widget.todo.id,
+                              isDone: widget.todo.isDone,
+                              title: controller.text,
+                            ),
+                          ),
+                        );
                       }
                     },
                     height: 53,
