@@ -100,4 +100,8 @@ class LocalNotificationService {
       id - 1682000000000,
     );
   }
+
+  void cancelAllNotifications() {
+    flutterLocalNotificationsPlugin.cancelAll();
+  }
 }

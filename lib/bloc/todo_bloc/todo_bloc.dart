@@ -15,7 +15,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc() : super(const TodoState()) {
     on<AddTodoEvent>(
       (event, emit) async {
-        if (event.title == '') {
+        if (event.title.trim().isEmpty) {
           MyUtils.getMyToast(message: 'Please, fill the field');
         } else if (event.selectedCategoryId == -1) {
           MyUtils.getMyToast(message: 'Please, select project');
@@ -93,13 +93,29 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
           // delete todo from cache
           await todoRepository.deleteTodo(event.id);
 
-          // delete notif
+          // cancel and delete notif
           LocalNotificationService.localNotificationService.cancelNotificationById(event.id);
           add(GetTodosEvent());
         } catch (e) {
           emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress, errMessage: e.toString()));
         }
-        // here cancel notification service
+      },
+    );
+
+    on<DeleteAllTodosEvent>(
+      (event, emit) async{
+        emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
+        try {
+          // delete all todos from cache
+          await todoRepository.deleteAllTodos();
+
+          // cancel and delete all notif
+          LocalNotificationService.localNotificationService.cancelAllNotifications();
+          MyUtils.getMyToast(message: 'All Todos is Deleted 😞');
+          add(GetTodosEvent());
+        } catch (e) {
+          emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress, errMessage: e.toString()));
+        }
       },
     );
   }
@@ -118,6 +134,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     List<TodoHiveModel> todos = state.todos;
     for (var todo in todos) {
       if (!todo.isDone) count++;
+    }
+    return count;
+  }
+
+  int getTodosCountByDone() {
+    int count = 0;
+    List<TodoHiveModel> todos = state.todos;
+    for (var todo in todos) {
+      if (todo.isDone) count++;
     }
     return count;
   }

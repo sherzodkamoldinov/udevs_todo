@@ -41,6 +41,27 @@ class TodoItem extends StatelessWidget {
           ),
         Slidable(
           key: ValueKey(todo.dateTime.millisecondsSinceEpoch),
+          startActionPane: ActionPane(
+            extentRatio: 0.23,
+            motion: const ScrollMotion(),
+            children: [
+              Container(
+                  height: 55,
+                  width: 55,
+                  decoration:  BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color:  MyUtils.toColor(categories.where((element) => element.id == todo.categoryId).toList()[0].gridColor),
+                  ),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      categories.where((element) => element.id == todo.categoryId).toList()[0].iconPath,
+                      color: MyUtils.toColor(categories.where((element) => element.id == todo.categoryId).toList()[0].color),
+                      height: 16,
+                    ),
+                  ),
+                ),
+            ],
+          ),
           endActionPane: ActionPane(
             extentRatio: 0.4,
             motion: const ScrollMotion(),

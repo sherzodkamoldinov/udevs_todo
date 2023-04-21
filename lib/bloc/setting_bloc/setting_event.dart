@@ -10,14 +10,29 @@ class GetUserInfoEvent extends SettingEvent {}
 
 class RemoveReminderEvent extends SettingEvent {}
 
-class UserInfoUpdateEvent extends SettingEvent {
-  final UserModel userModel;
+
+class UpdateNameEvent extends SettingEvent {
+  final String name;
   
-  const UserInfoUpdateEvent({
-    required this.userModel,
+  const UpdateNameEvent({
+    required this.name,
   });
   
 
   @override
-  List<Object> get props => [userModel];
+  List<Object> get props => [name];
 }
+
+class UpdateImagePathEvent extends SettingEvent {
+  final String imgPath;
+  
+  const UpdateImagePathEvent({
+    required this.imgPath,
+  });
+  
+
+  @override
+  List<Object> get props => [imgPath];
+}
+
+

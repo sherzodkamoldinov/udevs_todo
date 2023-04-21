@@ -17,6 +17,8 @@ class DeleteTodoEvent extends TodoEvent {
   List<Object?> get props => [id];
 }
 
+class DeleteAllTodosEvent extends TodoEvent {}
+
 class UpdateTodoEvent extends TodoEvent {
   const UpdateTodoEvent({required this.isUpdateDate, required this.todoModel, required this.categoryTitle});
 

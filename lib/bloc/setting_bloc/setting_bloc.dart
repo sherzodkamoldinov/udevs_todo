@@ -13,8 +13,30 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     on<RemoveReminderEvent>((event, emit) {
       // emit(state.copyWith())
     });
-    
-    on<UserInfoUpdateEvent>((event, emit) {});
+
+    on<UpdateNameEvent>((event, emit) async {
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      try {
+        // save new name to cache
+        await StorageRepository.putString(key: StorageKeys.userName, value: event.name);
+
+        emit(state.copyWith(user: state.user.copyWith(name: event.name), status: FormzStatus.submissionSuccess));
+      } catch (e) {
+        emit(state.copyWith(errMessage: e.toString(), status: FormzStatus.submissionFailure));
+      }
+    });
+
+    on<UpdateImagePathEvent>((event, emit) async {
+      emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      try {
+        // save new imgPath to cache
+        await StorageRepository.putString(key: StorageKeys.userImgPath, value: event.imgPath);
+
+        emit(state.copyWith(user: state.user.copyWith(imgPath: event.imgPath), status: FormzStatus.submissionSuccess));
+      } catch (e) {
+        emit(state.copyWith(errMessage: e.toString(), status: FormzStatus.submissionFailure));
+      }
+    });
 
     on<GetUserInfoEvent>((event, emit) {
       var name = StorageRepository.getString(key: StorageKeys.userName);

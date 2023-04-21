@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:udevs_todo/core/assets/constants/route_keys.dart';
 import 'package:udevs_todo/presentation/pages/on_boarding/on_boarding_page.dart';
+import 'package:udevs_todo/presentation/pages/settings/setting_page.dart';
 import 'package:udevs_todo/presentation/pages/splash/splash_page.dart';
 import 'package:udevs_todo/presentation/pages/tabs/tab_page.dart';
 
@@ -15,6 +16,9 @@ class AppRouter {
 
       case tab:
         return navigateTo(const TabPage());
+
+      case settingPage:
+        return navigateTo(const SettingPage());
 
       default:
         return navigateTo(

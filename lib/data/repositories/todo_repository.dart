@@ -35,4 +35,8 @@ class TodoRepository {
     index = values.indexWhere((element) => element.id == id);
     await todoBox.deleteAt(index);
   }
+
+  Future<void> deleteAllTodos() async{
+    await todoBox.deleteAll(todoBox.keys);
+  }
 }
