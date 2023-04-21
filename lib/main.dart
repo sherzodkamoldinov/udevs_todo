@@ -11,6 +11,7 @@ import 'package:udevs_todo/data/models/category_model/category_hive_model.dart';
 import 'package:udevs_todo/data/models/todo_model/todo_hive_model.dart';
 import 'package:udevs_todo/data/repositories/shared_pref.dart';
 import 'package:udevs_todo/presentation/router/router.dart';
+import 'package:udevs_todo/services/notif_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +26,15 @@ Future<void> main() async {
   await Hive.openBox<TodoHiveModel>(StorageKeys.todoBox);
   await Hive.openBox<CategoryHiveModel>(StorageKeys.categoryBox);
   
-
+  
   // portrait view set
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  // init notification service
+  LocalNotificationService.localNotificationService.init();
 
   runApp(const App());
 }

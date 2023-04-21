@@ -7,7 +7,6 @@ abstract class TodoEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-
 class GetTodosEvent extends TodoEvent {}
 
 class DeleteTodoEvent extends TodoEvent {
@@ -19,21 +18,24 @@ class DeleteTodoEvent extends TodoEvent {
 }
 
 class UpdateTodoEvent extends TodoEvent {
-  const UpdateTodoEvent({
-    required this.todoModel,
-  });
+  const UpdateTodoEvent({required this.isUpdateDate, required this.todoModel, required this.categoryTitle});
 
   final TodoHiveModel todoModel;
+  final bool isUpdateDate;
+  final String categoryTitle;
 
   @override
   List<Object?> get props => [
         todoModel,
+        isUpdateDate,
+        categoryTitle,
       ];
 }
 
 class AddTodoEvent extends TodoEvent {
   const AddTodoEvent({
     required this.selectedCategoryId,
+    required this.categoryTitle,
     required this.title,
     this.dateTime,
     required this.context,
@@ -41,14 +43,16 @@ class AddTodoEvent extends TodoEvent {
   });
   final int id;
   final String title;
+  final String categoryTitle;
   final int selectedCategoryId;
   final DateTime? dateTime;
   final BuildContext context;
 
   @override
   List<Object?> get props => [
-    id,
+        id,
         title,
+        categoryTitle,
         selectedCategoryId,
         dateTime,
         context,

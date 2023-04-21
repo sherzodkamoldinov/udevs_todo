@@ -134,6 +134,7 @@ class _AddTodoItemState extends State<AddTodoItem> {
                   WButton(
                     onTap: () {
                       BlocProvider.of<TodoBloc>(context).add(AddTodoEvent(
+                        categoryTitle: categories.where((element) => element.id == selectedCategoryId).toList()[0].title,
                         title: controller.text,
                         selectedCategoryId: selectedCategoryId,
                         dateTime: pickedDate,

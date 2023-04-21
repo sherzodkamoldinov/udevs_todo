@@ -140,6 +140,8 @@ class _EditTodoItemState extends State<EditTodoItem> {
                         // here edit task and some changes
                         BlocProvider.of<TodoBloc>(context).add(
                           UpdateTodoEvent(
+                            categoryTitle: widget.categories.where((element) => element.id == selectedCategoryId).toList()[0].title,
+                            isUpdateDate: widget.todo.dateTime.difference(pickedDate).inMinutes >= 0 ? true : false,
                             todoModel: TodoHiveModel(
                               categoryId: selectedCategoryId,
                               dateTime: pickedDate,

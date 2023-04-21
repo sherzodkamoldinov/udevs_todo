@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:udevs_todo/core/utils/utils.dart';
 import 'package:udevs_todo/data/models/todo_model/todo_hive_model.dart';
 import 'package:udevs_todo/data/repositories/todo_repository.dart';
+import 'package:udevs_todo/services/notif_service.dart';
 
 part 'todo_event.dart';
 part 'todo_state.dart';
@@ -21,7 +22,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         } else if (event.dateTime == null) {
           MyUtils.getMyToast(message: 'Please, choose the date');
         } else if (event.dateTime!.difference(DateTime.now()).inMinutes <= 0) {
-          MyUtils.getMyToast(message: 'Task time must be in the future');
+          MyUtils.getMyToast(message: 'Todo\'s time must be in the future!');
         } else {
           Navigator.of(event.context).pop();
           // add todo
@@ -31,10 +32,13 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
             TodoHiveModel todo = TodoHiveModel(categoryId: event.selectedCategoryId, title: event.title, dateTime: event.dateTime!, isDone: false, id: event.id);
             await todoRepository.addTodo(todo: todo);
 
-            // TODO: here add natifation with schedule
+            //  add natifation with schedule
+            LocalNotificationService.localNotificationService.scheduleNotification(
+              categoryName: event.categoryTitle,
+              todoModel: todo,
+            );
 
             add(GetTodosEvent());
-            // emit(state.copyWith(todoStatus: FormzStatus.submissionSuccess));
           } catch (e) {
             debugPrint('Error in add: ${e.toString()}');
             emit(state.copyWith(todoStatus: FormzStatus.submissionFailure, errMessage: e.toString()));
@@ -63,6 +67,17 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
         try {
           await todoRepository.updateTodo(event.todoModel);
+
+          // update notification
+          if (event.isUpdateDate) {
+            LocalNotificationService.localNotificationService.cancelNotificationById(event.todoModel.categoryId);
+            //  add natifation with schedule
+            LocalNotificationService.localNotificationService.scheduleNotification(
+              categoryName: event.categoryTitle,
+              todoModel: event.todoModel,
+            );
+          }
+
           add(GetTodosEvent());
         } catch (e) {
           emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress, errMessage: e.toString()));
@@ -72,10 +87,14 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
     on<DeleteTodoEvent>(
       (event, emit) async {
-        // here delete todo
+        // here delete all todo info
         emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
         try {
+          // delete todo from cache
           await todoRepository.deleteTodo(event.id);
+
+          // delete notif
+          LocalNotificationService.localNotificationService.cancelNotificationById(event.id);
           add(GetTodosEvent());
         } catch (e) {
           emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress, errMessage: e.toString()));
@@ -103,7 +122,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     return count;
   }
 
-   getTodosByCategory(int categoryId) {
+  getTodosByCategory(int categoryId) {
     List<TodoHiveModel> todosByCategory = [];
     List<TodoHiveModel> todos = state.todos;
     for (var todo in todos) {
