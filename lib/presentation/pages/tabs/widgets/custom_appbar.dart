@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
+import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
 
@@ -44,17 +47,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Hello Kamoldinov 👋",
+                            "Hello ${BlocProvider.of<SettingBloc>(context).state.user.name} 👋",
                             style: RubikFont.w400.copyWith(
                               fontSize: 18,
                               color: AppColors.white,
                             ),
                           ),
                           Text(
-                            "Today you have 12 🗒 tasks",
+                            BlocProvider.of<TodoBloc>(context,listen: true ).state.todos.isEmpty
+                            ? "Don't have tasks yet 🤨"
+                            : "Today you have ${BlocProvider.of<TodoBloc>(context, listen: true).getTasksCountByNotDone()} 🗒 tasks",
+                            overflow: TextOverflow.ellipsis,
                             style: RubikFont.w400.copyWith(
                               fontSize: 18,
                               color: AppColors.white,
+                              
                             ),
                           ),
                         ],

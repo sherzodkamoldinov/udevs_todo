@@ -4,9 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
+import 'package:udevs_todo/data/models/todo_model/todo_hive_model.dart';
 
 class ReminderDelegate extends SliverPersistentHeaderDelegate {
-  ReminderDelegate();
+  final TodoHiveModel reminderTodo;
+  ReminderDelegate({required this.reminderTodo});
 
   @override
   Widget build(
@@ -65,12 +67,12 @@ class ReminderDelegate extends SliverPersistentHeaderDelegate {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Meeting with client',
+                    reminderTodo.title,
                     style: RubikFont.w400.copyWith(color: AppColors.whiteSmoke, fontSize: 11),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    DateFormat.Hm().format(DateTime.now()),
+                    DateFormat.Hm().format(reminderTodo.dateTime),
                     style: RubikFont.w400.copyWith(color: AppColors.whiteSmoke, fontSize: 11),
                   )
                 ],

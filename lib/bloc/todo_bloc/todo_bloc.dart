@@ -12,11 +12,6 @@ part 'todo_state.dart';
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoRepository todoRepository = TodoRepository();
   TodoBloc() : super(const TodoState()) {
-    on<RemoveReminderEvent>(
-      (event, emit) {
-        emit(state.copyWith(showReminder: false));
-      },
-    );
     on<AddTodoEvent>(
       (event, emit) async {
         if (event.title == '') {
@@ -80,6 +75,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     List<TodoHiveModel> todos = state.todos;
     for (var todo in todos) {
       if (todo.categoryId == categoryId) count++;
+    }
+    return count;
+  }
+
+  int getTasksCountByNotDone() {
+    int count = 0;
+    List<TodoHiveModel> todos = state.todos;
+    for (var todo in todos) {
+      if (!todo.isDone) count++;
     }
     return count;
   }

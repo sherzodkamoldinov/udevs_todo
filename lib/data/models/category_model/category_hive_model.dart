@@ -11,7 +11,7 @@ class CategoryHiveModel extends HiveObject {
   @HiveField(1)
   final String color;
   @HiveField(2)
-  final int gridColor;
+  final String gridColor;
   @HiveField(3)
   final String iconPath;
   @HiveField(4)

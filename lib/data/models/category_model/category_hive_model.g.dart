@@ -18,7 +18,7 @@ class CategoryHiveModelAdapter extends TypeAdapter<CategoryHiveModel> {
     };
     return CategoryHiveModel(
       color: fields[1] as String,
-      gridColor: fields[2] as int,
+      gridColor: fields[2] as String,
       iconPath: fields[3] as String,
       id: fields[0] as int,
       title: fields[4] as String,

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:udevs_todo/bloc/category_bloc/category_bloc.dart';
+import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
 import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/constants/route_keys.dart';
 import 'package:udevs_todo/core/assets/constants/storage_keys.dart';
@@ -46,6 +47,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<CategoryBloc>(
           create: (context) => CategoryBloc()..add(GetCategoryEvent()),
+        ),
+        BlocProvider<SettingBloc>(
+          create: (context) => SettingBloc()..add(GetUserInfoEvent()),
         )
       ],
       child: MaterialApp(

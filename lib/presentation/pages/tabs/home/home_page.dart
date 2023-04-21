@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:udevs_todo/bloc/category_bloc/category_bloc.dart';
+import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
 import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/home_empty_item.dart';
@@ -26,8 +27,13 @@ class HomePage extends StatelessWidget {
               return CustomScrollView(
                 slivers: [
                   // REMINDER TODOs
+                  if (BlocProvider.of<SettingBloc>(context, listen: true).state.isReminderShow &&
+                    state.todos
+                        .where((element) => !element.isDone)
+                        .toList()
+                        .isNotEmpty)
                   SliverPersistentHeader(
-                    delegate: ReminderDelegate(),
+                    delegate: ReminderDelegate(reminderTodo: state.todos[0]),
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(

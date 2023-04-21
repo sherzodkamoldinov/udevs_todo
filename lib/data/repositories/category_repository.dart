@@ -8,7 +8,7 @@ class CategoryRepository {
   List<CategoryHiveModel> categories = [
     CategoryHiveModel(
       color: const Color(0xFFFFD506).value.toRadixString(16),
-      gridColor: const Color(0xFFFFEE9B).withOpacity(0.36).value,
+      gridColor: const Color(0xFFFFEE9B).withOpacity(0.36).value.toRadixString(16),
       iconPath: 'assets/icons/categories/user.svg',
       id: 0,
       title: 'Personal',
@@ -17,7 +17,7 @@ class CategoryRepository {
     // Work
     CategoryHiveModel(
       color: const Color(0xFF5DE61A).value.toRadixString(16),
-      gridColor: const Color(0xFFB5FF9B).withOpacity(0.36).value,
+      gridColor: const Color(0xFFB5FF9B).withOpacity(0.36).value.toRadixString(16),
       iconPath: 'assets/icons/categories/briefcase.svg',
       id: 1,
       title: 'Work',
@@ -26,7 +26,7 @@ class CategoryRepository {
     // Meeting
     CategoryHiveModel(
       color: const Color(0xFFD10263).value.toRadixString(16),
-      gridColor: const Color(0xFFFF9BCD).withOpacity(0.36).value,
+      gridColor: const Color(0xFFFF9BCD).withOpacity(0.36).value.toRadixString(16),
       iconPath: 'assets/icons/categories/presentation.svg',
       id: 2,
       title: 'Meeting',
@@ -35,7 +35,7 @@ class CategoryRepository {
     // Meeting
     CategoryHiveModel(
       color: const Color(0xFFF29130).value.toRadixString(16),
-      gridColor: const Color(0xFFFFD09B).withOpacity(0.36).value,
+      gridColor: const Color(0xFFFFD09B).withOpacity(0.36).value.toRadixString(16),
       iconPath: 'assets/icons/categories/shopping_basket.svg',
       id: 3,
       title: 'Shopping',
@@ -44,7 +44,7 @@ class CategoryRepository {
     // Party
     CategoryHiveModel(
       color: const Color(0xFF3044F2).value.toRadixString(16),
-      gridColor: const Color(0xFF9BFFF8).withOpacity(0.36).value,
+      gridColor: const Color(0xFF9BFFF8).withOpacity(0.36).value.toRadixString(16),
       iconPath: 'assets/icons/categories/confetti.svg',
       id: 4,
       title: 'Party',
@@ -53,7 +53,7 @@ class CategoryRepository {
     // Study
     CategoryHiveModel(
       color: const Color(0xFFBF0080).value.toRadixString(16),
-      gridColor: const Color(0xFFF59BFF).withOpacity(0.36).value,
+      gridColor: const Color(0xFFF59BFF).withOpacity(0.36).value.toRadixString(16),
       iconPath: 'assets/icons/categories/molecule.svg',
       id: 5,
       title: 'Study',

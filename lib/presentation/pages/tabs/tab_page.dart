@@ -4,7 +4,7 @@ import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/presentation/common/widgets/circle_pink_button.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/home_page.dart';
-import 'package:udevs_todo/presentation/pages/tabs/tasks/task_page.dart';
+import 'package:udevs_todo/presentation/pages/tabs/tasks/tasks_page.dart';
 import 'package:udevs_todo/presentation/pages/tabs/widgets/add_todo_item.dart';
 import 'package:udevs_todo/presentation/pages/tabs/widgets/custom_appbar.dart';
 

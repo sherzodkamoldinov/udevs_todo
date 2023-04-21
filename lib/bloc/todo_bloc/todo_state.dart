@@ -5,11 +5,9 @@ class TodoState extends Equatable {
     this.todoStatus = FormzStatus.pure,
     this.todos = const [],
     this.errMessage = '',
-    this.showReminder = true,
   });
 
   final FormzStatus todoStatus;
-  final bool showReminder;
   final List<TodoHiveModel> todos;
   final String errMessage;
 
@@ -20,12 +18,11 @@ class TodoState extends Equatable {
     String? errMessage,
   }) =>
       TodoState(
-        showReminder: showReminder ?? this.showReminder,
         errMessage: errMessage ?? this.errMessage,
         todos: todos ?? this.todos,
         todoStatus: todoStatus ?? this.todoStatus,
       );
 
   @override
-  List<Object?> get props => [todoStatus, showReminder, todos, errMessage];
+  List<Object?> get props => [todoStatus, todos, errMessage];
 }
