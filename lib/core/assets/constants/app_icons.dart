@@ -1,4 +1,4 @@
-class AppIcons{
+class AppIcons {
   // svg
   static const homeIcon = 'assets/icons/home.svg';
   static const gridIcon = 'assets/icons/grid.svg';
@@ -10,7 +10,8 @@ class AppIcons{
   // png
   static const onBoardingImg = 'assets/images/on_boarding.png';
   static const clipBoardImg = 'assets/images/clipboard.png';
-  static const bellImg = 'assets/images/bell.png'; 
+  static const bellImg = 'assets/images/bell.png';
 
   // lottie
+  static const splash = 'assets/lotties/splash.json';
 }
