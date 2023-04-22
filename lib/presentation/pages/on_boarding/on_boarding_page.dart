@@ -28,7 +28,7 @@ class OnBoardingPage extends StatelessWidget {
                   const Spacer(),
 
                   Image.asset(AppIcons.onBoardingImg, height: 195),
-                  const SizedBox(height: 113),
+                  const SizedBox(height: 110),
 
                   Text(
                     "Reminders made simple",
@@ -41,7 +41,9 @@ class OnBoardingPage extends StatelessWidget {
                   WButton(
                     onTap: () async {
                       await StorageRepository.putBool(key: StorageKeys.isFirstInit, value: true);
+                      // ignore: use_build_context_synchronously
                       BlocProvider.of<CategoryBloc>(context).add(CategoryFirstInit());
+                      // ignore: use_build_context_synchronously
                       Navigator.pushReplacementNamed(context, tab);
                     },
                     isLoading: state.categoryStatus.isSubmissionInProgress,
@@ -52,7 +54,7 @@ class OnBoardingPage extends StatelessWidget {
                     shadow: [
                       BoxShadow(
                         blurRadius: 30,
-                        color: AppColors.kellyGreen.withOpacity(0.53),
+                        color: AppColors.kellyGreen.withOpacity(0.5),
                         offset: const Offset(0, 5),
                       ),
                     ],
@@ -62,7 +64,7 @@ class OnBoardingPage extends StatelessWidget {
                       color: AppColors.alabasterWhite,
                     ),
                   ),
-                  const SizedBox(height: 92),
+                  const SizedBox(height: 95),
                 ],
               ),
             ),

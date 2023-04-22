@@ -9,10 +9,10 @@ import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
 import 'package:udevs_todo/core/utils/utils.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/home_empty_item.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/reminder_delegate.dart';
-import 'package:udevs_todo/presentation/pages/tabs/tasks/widgets/big_category_item.dart';
+import 'package:udevs_todo/presentation/pages/tabs/categories/widgets/big_category_item.dart';
 
-class TasksPage extends StatelessWidget {
-  const TasksPage({super.key});
+class CategoriesPage extends StatelessWidget {
+  const CategoriesPage({super.key});
 
   @override
   Widget build(BuildContext context) {

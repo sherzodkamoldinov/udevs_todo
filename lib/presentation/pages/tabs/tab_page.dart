@@ -4,10 +4,9 @@ import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/presentation/common/widgets/circle_pink_button.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/home_page.dart';
-import 'package:udevs_todo/presentation/pages/tabs/tasks/tasks_page.dart';
+import 'package:udevs_todo/presentation/pages/tabs/categories/categories_page.dart';
 import 'package:udevs_todo/presentation/pages/tabs/widgets/add_todo_item.dart';
 import 'package:udevs_todo/presentation/pages/tabs/widgets/custom_appbar.dart';
-
 
 class TabPage extends StatefulWidget {
   const TabPage({super.key});
@@ -16,10 +15,31 @@ class TabPage extends StatefulWidget {
   State<TabPage> createState() => _TabPageState();
 }
 
-class _TabPageState extends State<TabPage> {
+class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 1, end: 1.3).animate( CurvedAnimation(
+  parent: _animationController,
+  curve: Curves.easeIn
+));
+
+    _animationController.addListener(() {
+      setState(() {});
+    });
+  }
+
   final List<Widget> _screens = [
     const HomePage(),
-    const TasksPage(),
+    const CategoriesPage(),
   ];
   int _currentIndex = 0;
 
@@ -28,17 +48,20 @@ class _TabPageState extends State<TabPage> {
     return Scaffold(
       appBar: const CustomAppBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: CirclePinkButton(
-        onTap: () {
-          // HERE ADD TODOS
-          showModalBottomSheet(
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            isScrollControlled: true,
-            context: context,
-            builder: (context) => const AddTodoItem(),
-          );
-        },
+      floatingActionButton: ScaleTransition(
+        scale: _animation,
+        child: CirclePinkButton(
+          onTap: () {
+            // HERE ADD TODOS
+            showModalBottomSheet(
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+              isScrollControlled: true,
+              context: context,
+              builder: (context) => const AddTodoItem(),
+            );
+          },
+        ),
       ),
       body: IndexedStack(
         index: _currentIndex,
@@ -67,7 +90,7 @@ class _TabPageState extends State<TabPage> {
             ),
             _bottomNavItem(
               isSelected: _currentIndex == 1,
-              label: 'Task',
+              label: 'Categories',
               iconPath: AppIcons.gridIcon,
             ),
           ],

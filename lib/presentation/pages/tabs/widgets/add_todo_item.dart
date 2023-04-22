@@ -8,6 +8,7 @@ import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
+import 'package:udevs_todo/core/utils/utils.dart';
 import 'package:udevs_todo/data/models/category_model/category_hive_model.dart';
 import 'package:udevs_todo/presentation/common/widgets/circle_pink_button.dart';
 import 'package:udevs_todo/presentation/common/widgets/w_button.dart';
@@ -15,7 +16,6 @@ import 'package:udevs_todo/presentation/common/widgets/w_text_field.dart';
 import 'package:udevs_todo/presentation/pages/tabs/widgets/add_todo_item_header_paint.dart';
 import 'package:udevs_todo/presentation/pages/tabs/widgets/category_item.dart';
 
-import '../../../../core/utils/utils.dart';
 
 class AddTodoItem extends StatefulWidget {
   const AddTodoItem({super.key});

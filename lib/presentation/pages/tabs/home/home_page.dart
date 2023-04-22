@@ -28,7 +28,6 @@ class HomePage extends StatelessWidget {
               return CustomScrollView(
                 slivers: [
                   // REMINDER TODOs
-                  
                   if(BlocProvider.of<SettingBloc>(context, listen: true).state.isReminderShow &&
                   state.todos
                         .where((element) => !element.isDone)
