@@ -49,7 +49,7 @@ Udevs Todo - bu turli xil vazifalarni qo'shish va vazifalni qilishda ulgurishga 
 
 
 ***
-###___Dasturdagi Packagelar___
+### ___Dasturdagi Packagelar___
 * [lottie](https://pub.dev/packages/lottie)
     - _Lottie formatdagi animatsiyalar_
 * [flutter_svg](https://pub.dev/packages/flutter_svg)
