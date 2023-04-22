@@ -7,11 +7,11 @@ class MyUtils {
   static getMyToast({required String message}) => Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM_RIGHT,
+        gravity: ToastGravity.TOP_RIGHT,
         timeInSecForIosWeb: 1,
         backgroundColor: AppColors.primaryColor,
         textColor: AppColors.white,
-        fontSize: 16,
+        fontSize: 18,
       );
 
   // date time

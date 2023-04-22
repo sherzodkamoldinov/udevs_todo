@@ -3,6 +3,7 @@ class AppIcons {
   static const homeIcon = 'assets/icons/home.svg';
   static const gridIcon = 'assets/icons/grid.svg';
   static const addIcon = 'assets/icons/add.svg';
+  static const bell = 'assets/icons/bell.svg';
   static const xNoteIcon = 'assets/icons/x_note.svg';
   static const trashIcon = 'assets/icons/trash.svg';
   static const commentIcon = 'assets/icons/comment.svg';

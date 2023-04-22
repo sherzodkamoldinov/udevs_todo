@@ -11,7 +11,7 @@ part 'setting_state.dart';
 class SettingBloc extends Bloc<SettingEvent, SettingState> {
   SettingBloc() : super(const SettingState()) {
     on<RemoveReminderEvent>((event, emit) {
-      // emit(state.copyWith())
+      emit(state.copyWith(isReminderShow: false));
     });
 
     on<UpdateNameEvent>((event, emit) async {

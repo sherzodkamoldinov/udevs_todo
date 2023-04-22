@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
@@ -32,23 +31,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
               clipBehavior: Clip.none,
               children: [
                 _circleDecorationItem(
-                  size: 211,
+                  size: 210,
                   left: -80,
                   top: -105,
                 ),
                 _circleDecorationItem(
-                  size: 93,
-                  left: 299,
+                  size: 90,
+                  left: 300,
                   top: -18,
                 ),
                 Positioned(
-                  left: 19,
-                  right: 19,
-                  bottom: 11,
+                  left: 20,
+                  right: 10,
+                  bottom: 12,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // title
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -60,7 +60,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
                             ),
                           ),
                           Text(
-                            BlocProvider.of<TodoBloc>(context, listen: true).state.todos.isEmpty
+                            BlocProvider.of<TodoBloc>(context, listen: true).getTodosCountByNotDone() == 0
                                 ? "Don't have tasks yet 🤨"
                                 : "Today you have ${BlocProvider.of<TodoBloc>(context, listen: true).getTodosCountByNotDone()} 🗒 tasks",
                             overflow: TextOverflow.ellipsis,
@@ -71,40 +71,45 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
                           ),
                         ],
                       ),
-                      WScaleAnimation(
-                        onTap: () {
-                          Navigator.pushNamed(context, settingPage);
-                        },
-                        child:  CircleAvatar(
-                          radius: 20,
-                          backgroundColor: AppColors.white,
-                          child: state.user.imgPath.isNotEmpty
-                                  ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.file(
-                                        File(state.user.imgPath),
-                                        width: MediaQuery.of(context).size.height * 0.2,
-                                        height: MediaQuery.of(context).size.height * 0.2,
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return const Center(
-                                            child: Icon(
-                                              Icons.person,
-                                              size: 60,
-                                              color: Colors.black,
-                                            ),
-                                          );
-                                        },
+                      
+                      // user img and setting button
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: AppColors.white,
+                            child: state.user.imgPath.isNotEmpty
+                                    ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Image.file(
+                                          File(state.user.imgPath),
+                                          width: MediaQuery.of(context).size.height * 0.2,
+                                          height: MediaQuery.of(context).size.height * 0.2,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) {
+                                            return const Center(
+                                              child: Icon(
+                                                Icons.person,
+                                                color: Colors.black,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                    )
+                                    : const Center(
+                                        child: Icon(
+                                          Icons.person,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                                  )
-                                  : const Center(
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 60,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                        ),
+                          ),
+                          const SizedBox(width: 7),
+                          WScaleAnimation(
+                            onTap: (){
+                              Navigator.pushNamed(context, settingPage);
+                            },
+                            child: const Icon(Icons.more_vert_outlined, color: AppColors.white, size: 28))
+                        ],
                       ),
                     ],
                   ),
@@ -118,7 +123,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
   }
 
   @override
-  Size get preferredSize => const Size(double.infinity, 69);
+  Size get preferredSize => const Size(double.infinity, 70);
 
   @override
   Widget get child => throw UnimplementedError();
@@ -140,7 +145,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
         width: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: AppColors.white.withOpacity(0.17),
+          color: AppColors.white.withOpacity(0.20),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest.dart' as tz;
@@ -66,12 +67,11 @@ class LocalNotificationService {
 
   void scheduleNotification({
     required TodoHiveModel todoModel,
-    required String categoryName,
   }) async {
-    BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(todoModel.title, htmlFormatBigText: true, contentTitle: categoryName, htmlFormatContentTitle: true);
+    BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(todoModel.title, htmlFormatBigText: true, contentTitle: todoModel.categoryTitle, htmlFormatContentTitle: true);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      todoModel.id - 1682000000000, // :D
-      categoryName,
+      todoModel.id, // :D
+      todoModel.categoryTitle,
       todoModel.title,
       tz.TZDateTime.from(
         todoModel.dateTime,
@@ -93,12 +93,14 @@ class LocalNotificationService {
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
     );
+    debugPrint("TODO WITH ID : ${todoModel.id} NOTIF ADDED");
   }
 
   void cancelNotificationById(int id) {
     flutterLocalNotificationsPlugin.cancel(
-      id - 1682000000000,
+      id,
     );
+    debugPrint("TODO WITH ID : $id NOTIF CANCEL");
   }
 
   void cancelAllNotifications() {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/constants/app_icons.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
@@ -43,6 +45,7 @@ class ReminderDelegate extends SliverPersistentHeaderDelegate {
               child: IconButton(
                 onPressed: () {
                   // here close reminder
+                  BlocProvider.of<SettingBloc>(context).add(RemoveReminderEvent());
                 },
                 icon: SvgPicture.asset(
                   AppIcons.xNoteIcon,

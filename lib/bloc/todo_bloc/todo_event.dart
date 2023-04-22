@@ -20,17 +20,19 @@ class DeleteTodoEvent extends TodoEvent {
 class DeleteAllTodosEvent extends TodoEvent {}
 
 class UpdateTodoEvent extends TodoEvent {
-  const UpdateTodoEvent({required this.isUpdateDate, required this.todoModel, required this.categoryTitle});
+  const UpdateTodoEvent({required this.isUpdateDate, required this.todoModel,this.isCheckBoxPressed = false, this.isBellPressed = false});
 
   final TodoHiveModel todoModel;
   final bool isUpdateDate;
-  final String categoryTitle;
+  final bool isCheckBoxPressed;
+  final bool isBellPressed;
 
   @override
   List<Object?> get props => [
+        isCheckBoxPressed,
+        isBellPressed,
         todoModel,
         isUpdateDate,
-        categoryTitle,
       ];
 }
 
@@ -40,15 +42,14 @@ class AddTodoEvent extends TodoEvent {
     required this.categoryTitle,
     required this.title,
     this.dateTime,
-    required this.context,
     required this.id,
+    
   });
   final int id;
   final String title;
   final String categoryTitle;
   final int selectedCategoryId;
   final DateTime? dateTime;
-  final BuildContext context;
 
   @override
   List<Object?> get props => [
@@ -57,6 +58,5 @@ class AddTodoEvent extends TodoEvent {
         categoryTitle,
         selectedCategoryId,
         dateTime,
-        context,
       ];
 }

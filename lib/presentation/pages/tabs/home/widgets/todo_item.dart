@@ -28,6 +28,7 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var todoCategory = categories.where((element) => element.id == todo.categoryId).first;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,6 +40,7 @@ class TodoItem extends StatelessWidget {
               style: RubikFont.w500.copyWith(fontSize: 13, color: AppColors.shipCove),
             ),
           ),
+        // left slidable
         Slidable(
           key: ValueKey(todo.dateTime.millisecondsSinceEpoch),
           startActionPane: ActionPane(
@@ -46,20 +48,24 @@ class TodoItem extends StatelessWidget {
             motion: const ScrollMotion(),
             children: [
               Container(
-                  height: 55,
-                  width: 55,
-                  decoration:  BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color:  MyUtils.toColor(categories.where((element) => element.id == todo.categoryId).toList()[0].gridColor),
-                  ),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      categories.where((element) => element.id == todo.categoryId).toList()[0].iconPath,
-                      color: MyUtils.toColor(categories.where((element) => element.id == todo.categoryId).toList()[0].color),
-                      height: 16,
-                    ),
+                height: 55,
+                width: 55,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: MyUtils.toColor(todoCategory.gridColor),
+                ),
+                child: Center(
+                  child: todoCategory.iconPath.isNotEmpty
+                  ? SvgPicture.asset(
+                    todoCategory.iconPath,
+                    color: MyUtils.toColor(todoCategory.color),
+                    height: 16,
+                  ): Icon(
+                    IconData(todoCategory.intIconPath, fontFamily: 'MaterialIcons'),
+                    color: MyUtils.toColor(todoCategory.color),
                   ),
                 ),
+              ),
             ],
           ),
           endActionPane: ActionPane(
@@ -130,6 +136,7 @@ class TodoItem extends StatelessWidget {
             ),
             child: Row(
               children: [
+                // category color
                 Container(
                   height: 55,
                   width: 4,
@@ -141,11 +148,13 @@ class TodoItem extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                // all info
                 Expanded(
                   child: Container(
                     height: 55,
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 10),
                     decoration: const BoxDecoration(
                       color: AppColors.white,
                       borderRadius: BorderRadius.only(
@@ -155,13 +164,23 @@ class TodoItem extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
+                        // change todo's done
                         WCheckBox(
                           isSelected: todo.isDone,
                           onChanged: (v) {
-                            // TODO: here update todo
+                            // here update todo's done
+                            BlocProvider.of<TodoBloc>(context).add(
+                              UpdateTodoEvent(
+                                isCheckBoxPressed: true,
+                                isUpdateDate: false,
+                                todoModel: todo.copyWith(isDone: v, isReminding: !v),
+                              ),
+                            );
                           },
                         ),
                         const SizedBox(width: 11),
+
+                        // date
                         Text(
                           DateFormat.Hm().format(todo.dateTime),
                           style: RubikFont.w400.copyWith(
@@ -170,16 +189,43 @@ class TodoItem extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 13),
+
+                        // title
                         Expanded(
                           child: Text(
                             todo.title,
                             style: RubikFont.w500.copyWith(
                               decorationColor: AppColors.gainsboro,
-                              decoration: todo.isDone ? TextDecoration.overline : null,
+                              decoration: todo.isDone ? TextDecoration.underline : null,
                               fontSize: 14,
                               color: todo.isDone ? AppColors.gainsboro : AppColors.victoria,
                             ),
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                        const Spacer(),
+
+                        // change reminder event
+                        IconButton(
+                          onPressed: () {
+                            debugPrint("MYTODO: ${todo.isReminding}");
+                            if (!todo.isDone) {
+                              BlocProvider.of<TodoBloc>(context).add(
+                                UpdateTodoEvent(
+                                  isBellPressed: true,
+                                  isUpdateDate: false,
+                                  todoModel: todo.copyWith(isReminding: todo.isReminding ? false : true),
+                                ),
+                              );
+                            } else {
+                              MyUtils.getMyToast(message: 'Task must be active!');
+                            }
+                          },
+                          style: IconButton.styleFrom(padding: EdgeInsets.zero),
+                          icon: SvgPicture.asset(
+                            AppIcons.bell,
+                            color: todo.isReminding ? Colors.orange : null,
                           ),
                         ),
                       ],

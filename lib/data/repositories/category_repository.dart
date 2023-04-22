@@ -5,6 +5,31 @@ import 'package:udevs_todo/data/models/category_model/category_hive_model.dart';
 
 class CategoryRepository {
   var categoryBox = Hive.box<CategoryHiveModel>(StorageKeys.categoryBox);
+  static List<int> newCategories = [
+    Icons.access_alarm.codePoint,
+    Icons.account_circle_rounded.codePoint,
+    Icons.accessible.codePoint,
+    Icons.healing.codePoint,
+    Icons.sports_baseball.codePoint,
+    Icons.add_location.codePoint,
+    Icons.airplane_ticket.codePoint,
+    Icons.apartment_sharp.codePoint,
+    Icons.work_rounded.codePoint,
+    Icons.weekend_rounded.codePoint,
+    Icons.smart_display.codePoint,
+  ];
+  static List<String> newColors = [
+    Colors.orange.value.toRadixString(16),
+    Colors.blueAccent.value.toRadixString(16),
+    Colors.yellow.value.toRadixString(16),
+    Colors.lightGreen.value.toRadixString(16),
+    Colors.pink.value.toRadixString(16),
+    Colors.tealAccent.value.toRadixString(16),
+    Colors.indigo.value.toRadixString(16),
+    Colors.purple.value.toRadixString(16),
+    Colors.green.value.toRadixString(16),
+    Colors.red.value.toRadixString(16),
+  ];
   List<CategoryHiveModel> categories = [
     CategoryHiveModel(
       color: const Color(0xFFFFD506).value.toRadixString(16),
@@ -12,6 +37,7 @@ class CategoryRepository {
       iconPath: 'assets/icons/categories/user.svg',
       id: 0,
       title: 'Personal',
+      intIconPath: -1,
     ),
 
     // Work
@@ -21,6 +47,7 @@ class CategoryRepository {
       iconPath: 'assets/icons/categories/briefcase.svg',
       id: 1,
       title: 'Work',
+      intIconPath: -1,
     ),
 
     // Meeting
@@ -30,6 +57,7 @@ class CategoryRepository {
       iconPath: 'assets/icons/categories/presentation.svg',
       id: 2,
       title: 'Meeting',
+      intIconPath: -1,
     ),
 
     // Meeting
@@ -39,6 +67,7 @@ class CategoryRepository {
       iconPath: 'assets/icons/categories/shopping_basket.svg',
       id: 3,
       title: 'Shopping',
+      intIconPath: -1,
     ),
 
     // Party
@@ -48,6 +77,7 @@ class CategoryRepository {
       iconPath: 'assets/icons/categories/confetti.svg',
       id: 4,
       title: 'Party',
+      intIconPath: -1,
     ),
 
     // Study
@@ -57,6 +87,7 @@ class CategoryRepository {
       iconPath: 'assets/icons/categories/molecule.svg',
       id: 5,
       title: 'Study',
+      intIconPath: -1,
     ),
   ];
 

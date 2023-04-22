@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -52,6 +54,8 @@ class _AddTodoItemState extends State<AddTodoItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 43),
+
+                  // title
                   Center(
                     child: Text(
                       "Add new task",
@@ -62,12 +66,14 @@ class _AddTodoItemState extends State<AddTodoItem> {
                     ),
                   ),
                   WTextField(controller: controller),
-                  const SizedBox(height: 17.5),
+                  const SizedBox(height: 18),
+
+                  // categories
                   SizedBox(
                     height: 30,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 15.5),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       children: List.generate(
                         categories.length,
                         (index) => CategoryItem(
@@ -80,9 +86,9 @@ class _AddTodoItemState extends State<AddTodoItem> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 13.5),
+                  const SizedBox(height: 14),
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 21.5),
+                    padding: EdgeInsets.symmetric(horizontal: 22),
                     child: Divider(
                       color: AppColors.veryLightGrey,
                       height: 1,
@@ -133,15 +139,26 @@ class _AddTodoItemState extends State<AddTodoItem> {
                   // add todo to cache
                   WButton(
                     onTap: () {
-                      BlocProvider.of<TodoBloc>(context).add(AddTodoEvent(
-                        categoryTitle: categories.where((element) => element.id == selectedCategoryId).toList()[0].title,
-                        title: controller.text,
-                        selectedCategoryId: selectedCategoryId,
-                        dateTime: pickedDate,
-                        context: context,
-                        id: DateTime.now().millisecondsSinceEpoch,
-                      ));
-                      
+                      if (controller.text.trim().isEmpty) {
+                        MyUtils.getMyToast(message: 'Please, fill currently!');
+                      } else if (selectedCategoryId == -1) {
+                        MyUtils.getMyToast(message: 'Please, select category of Todo!');
+                      } else if (pickedDate == null) {
+                        MyUtils.getMyToast(message: 'Please, choose the Date');
+                      } else if (pickedDate!.difference(DateTime.now()).inMinutes <= 0) {
+                        MyUtils.getMyToast(message: 'Todo\'s time must be in the future!');
+                      } else {
+                        Navigator.of(context).pop();
+                        BlocProvider.of<TodoBloc>(context).add(
+                          AddTodoEvent(
+                            categoryTitle: categories.where((element) => element.id == selectedCategoryId).toList()[0].title,
+                            title: controller.text,
+                            selectedCategoryId: selectedCategoryId,
+                            dateTime: pickedDate,
+                            id: Random().nextInt(pow(2, 31).toInt() - 1),
+                          ),
+                        );
+                      }
                     },
                     height: 53,
                     width: double.infinity,
@@ -161,7 +178,7 @@ class _AddTodoItemState extends State<AddTodoItem> {
             Positioned(
               left: 0,
               right: 0,
-              top: -26.5,
+              top: -26,
               child: CirclePinkButton(
                 iconPath: AppIcons.xNoteIcon,
                 onTap: () => Navigator.of(context).pop(),

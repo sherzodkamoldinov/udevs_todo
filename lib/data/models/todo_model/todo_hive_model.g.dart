@@ -22,13 +22,15 @@ class TodoHiveModelAdapter extends TypeAdapter<TodoHiveModel> {
       dateTime: fields[2] as DateTime,
       isDone: fields[3] as bool,
       id: fields[5] as int,
+      isReminding: fields[6] as bool,
+      categoryTitle: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, TodoHiveModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.categoryId)
       ..writeByte(1)
@@ -38,7 +40,11 @@ class TodoHiveModelAdapter extends TypeAdapter<TodoHiveModel> {
       ..writeByte(3)
       ..write(obj.isDone)
       ..writeByte(5)
-      ..write(obj.id);
+      ..write(obj.id)
+      ..writeByte(6)
+      ..write(obj.isReminding)
+      ..writeByte(7)
+      ..write(obj.categoryTitle);
   }
 
   @override

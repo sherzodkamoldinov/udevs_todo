@@ -16,8 +16,11 @@ class CategoryHiveModel extends HiveObject {
   final String iconPath;
   @HiveField(4)
   final String title;
+  @HiveField(5)
+  final int intIconPath;
 
-  CategoryHiveModel({
+  CategoryHiveModel( {
+    required this.intIconPath,
     required this.color,
     required this.gridColor,
     required this.iconPath,

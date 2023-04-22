@@ -17,6 +17,7 @@ class CategoryHiveModelAdapter extends TypeAdapter<CategoryHiveModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CategoryHiveModel(
+      intIconPath: fields[5] as int,
       color: fields[1] as String,
       gridColor: fields[2] as String,
       iconPath: fields[3] as String,
@@ -28,7 +29,7 @@ class CategoryHiveModelAdapter extends TypeAdapter<CategoryHiveModel> {
   @override
   void write(BinaryWriter writer, CategoryHiveModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class CategoryHiveModelAdapter extends TypeAdapter<CategoryHiveModel> {
       ..writeByte(3)
       ..write(obj.iconPath)
       ..writeByte(4)
-      ..write(obj.title);
+      ..write(obj.title)
+      ..writeByte(5)
+      ..write(obj.intIconPath);
   }
 
   @override

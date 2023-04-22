@@ -38,10 +38,15 @@ class BigCategoryItem extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Center(
-              child: SvgPicture.asset(
+              child: categoryModel.iconPath.isNotEmpty
+              ? SvgPicture.asset(
                 categoryModel.iconPath,
                 height: 34,
-              ),
+              )
+              :Icon(
+                    IconData(categoryModel.intIconPath, fontFamily: 'MaterialIcons'),
+                    color: MyUtils.toColor(categoryModel.color),
+                  ),
             ),
           ),
           Text(

@@ -15,34 +15,30 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc() : super(const TodoState()) {
     on<AddTodoEvent>(
       (event, emit) async {
-        if (event.title.trim().isEmpty) {
-          MyUtils.getMyToast(message: 'Please, fill the field');
-        } else if (event.selectedCategoryId == -1) {
-          MyUtils.getMyToast(message: 'Please, select project');
-        } else if (event.dateTime == null) {
-          MyUtils.getMyToast(message: 'Please, choose the date');
-        } else if (event.dateTime!.difference(DateTime.now()).inMinutes <= 0) {
-          MyUtils.getMyToast(message: 'Todo\'s time must be in the future!');
-        } else {
-          Navigator.of(event.context).pop();
-          // add todo
-          emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
-          try {
-            // add todo to cache
-            TodoHiveModel todo = TodoHiveModel(categoryId: event.selectedCategoryId, title: event.title, dateTime: event.dateTime!, isDone: false, id: event.id);
-            await todoRepository.addTodo(todo: todo);
+        // add todo
+        emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
+        try {
+          // add todo to cache
+          TodoHiveModel todo = TodoHiveModel(
+            categoryId: event.selectedCategoryId,
+            title: event.title,
+            dateTime: event.dateTime!,
+            isDone: false,
+            id: event.id,
+            isReminding: true,
+            categoryTitle: event.categoryTitle,
+          );
+          await todoRepository.addTodo(todo: todo);
 
-            //  add natifation with schedule
-            LocalNotificationService.localNotificationService.scheduleNotification(
-              categoryName: event.categoryTitle,
-              todoModel: todo,
-            );
+          //  add natifation with schedule
+          LocalNotificationService.localNotificationService.scheduleNotification(
+            todoModel: todo,
+          );
 
-            add(GetTodosEvent());
-          } catch (e) {
-            debugPrint('Error in add: ${e.toString()}');
-            emit(state.copyWith(todoStatus: FormzStatus.submissionFailure, errMessage: e.toString()));
-          }
+          add(GetTodosEvent());
+        } catch (e) {
+          debugPrint('Error in add: ${e.toString()}');
+          emit(state.copyWith(todoStatus: FormzStatus.submissionFailure, errMessage: e.toString()));
         }
       },
     );
@@ -53,9 +49,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         // here get todos from hive
         try {
           var todos = todoRepository.getTodos();
+
           emit(state.copyWith(todos: todos, todoStatus: FormzStatus.submissionSuccess));
         } catch (e) {
-          debugPrint('Error in get: ${e.toString()}');
           emit(state.copyWith(todoStatus: FormzStatus.submissionFailure, errMessage: e.toString()));
         }
       },
@@ -73,9 +69,18 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
             LocalNotificationService.localNotificationService.cancelNotificationById(event.todoModel.categoryId);
             //  add natifation with schedule
             LocalNotificationService.localNotificationService.scheduleNotification(
-              categoryName: event.categoryTitle,
               todoModel: event.todoModel,
             );
+          }
+
+          /// it works when onPressed [checkBox]
+          if (event.isCheckBoxPressed) {
+            _cancelOrActiveNotif(event.todoModel.isDone, event.todoModel,);
+          }
+
+          /// it works when onPressed [bell icon]
+          if (event.isBellPressed) {
+            _cancelOrActiveNotif(!event.todoModel.isReminding, event.todoModel, );
           }
 
           add(GetTodosEvent());
@@ -103,7 +108,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     );
 
     on<DeleteAllTodosEvent>(
-      (event, emit) async{
+      (event, emit) async {
         emit(state.copyWith(todoStatus: FormzStatus.submissionInProgress));
         try {
           // delete all todos from cache
@@ -154,5 +159,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       if (todo.categoryId == categoryId) todosByCategory.add(todo);
     }
     return todosByCategory;
+  }
+
+  _cancelOrActiveNotif(bool cancel, TodoHiveModel todo) {
+    if (cancel) {
+      LocalNotificationService.localNotificationService.cancelNotificationById(todo.id);
+    } else {
+      LocalNotificationService.localNotificationService.scheduleNotification(
+        todoModel: todo,
+      );
+    }
   }
 }

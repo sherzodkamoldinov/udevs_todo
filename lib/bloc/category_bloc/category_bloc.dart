@@ -52,17 +52,5 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         }
       },
     );
-
-    on<DeleteCategoryEvent>(
-      (event, emit) {
-        // here delete category
-      },
-    );
-    
-    on<UpdateCategoryEvent>(
-      (event, emit) {
-        // here update Category
-      },
-    );
   }
 }

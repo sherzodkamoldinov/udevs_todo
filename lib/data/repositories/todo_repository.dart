@@ -17,7 +17,7 @@ class TodoRepository {
     List<TodoHiveModel> values = todoBox.values.toList();
     values.sort((a, b) => a.dateTime.millisecondsSinceEpoch.compareTo(b.dateTime.millisecondsSinceEpoch));
     values.forEach((element) {
-      debugPrint(element.dateTime.millisecondsSinceEpoch.toString());
+      debugPrint(element.id.toString());
     });
     return values.cast<TodoHiveModel>();
   }

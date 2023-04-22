@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -8,7 +9,11 @@ import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
 import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
+import 'package:udevs_todo/core/utils/utils.dart';
+import 'package:udevs_todo/data/repositories/category_repository.dart';
 import 'package:udevs_todo/presentation/common/widgets/w_scale_animation.dart';
+import 'package:udevs_todo/presentation/common/widgets/w_text_field.dart';
+import 'package:udevs_todo/presentation/pages/settings/add_category.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -155,8 +160,20 @@ class _SettingPageState extends State<SettingPage> {
                 ),
 
                 const SizedBox(height: 23),
+
+                // add category
                 _settingListTileItems(
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(22))),
+                      builder: (context) {
+                        return StatefulBuilder(
+                          builder: (context, setState) => const AddCategory());
+                      },
+                    );
+                  },
                   text: 'Add Category',
                   icon: Icons.add,
                   margin: 10,

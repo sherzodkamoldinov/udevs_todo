@@ -21,18 +21,19 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           if (state.todoStatus.isSubmissionInProgress || BlocProvider.of<CategoryBloc>(context).state.categoryStatus.isSubmissionInProgress) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: AppColors.cornflowerBlue,),
             );
           } else if (state.todoStatus.isSubmissionSuccess) {
             if (state.todos.isNotEmpty) {
               return CustomScrollView(
                 slivers: [
                   // REMINDER TODOs
-                  if (BlocProvider.of<SettingBloc>(context, listen: true).state.isReminderShow &&
-                    state.todos
+                  
+                  if(BlocProvider.of<SettingBloc>(context, listen: true).state.isReminderShow &&
+                  state.todos
                         .where((element) => !element.isDone)
                         .toList()
-                        .isNotEmpty)
+                        .isNotEmpty && MyUtils.isEqualDate(fstDate: state.todos.first.dateTime, secDate: DateTime.now()))
                   SliverPersistentHeader(
                     delegate: ReminderDelegate(reminderTodo: state.todos[0]),
                   ),
