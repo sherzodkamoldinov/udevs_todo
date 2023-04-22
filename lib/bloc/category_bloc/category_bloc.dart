@@ -39,6 +39,21 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       },
     );
 
+    on<DeleteCategoryEvent>(
+      (event, emit) async {
+        emit(state.copyWith(categoryStatus: FormzStatus.submissionInProgress));
+        try {
+          // delete category to cache
+          await categoryRepository.deleteCategory(id: event.categoryId);
+
+          add(GetCategoryEvent());
+        } catch (e) {
+          debugPrint('Error in add: ${e.toString()}');
+          emit(state.copyWith(categoryStatus: FormzStatus.submissionFailure, errMessage: e.toString()));
+        }
+      },
+    );
+
     on<GetCategoryEvent>(
       (event, emit) {
         emit(state.copyWith(categoryStatus: FormzStatus.submissionInProgress));

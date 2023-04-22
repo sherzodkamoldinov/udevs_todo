@@ -9,6 +9,14 @@ abstract class CategoryEvent extends Equatable {
 
 class CategoryFirstInit extends CategoryEvent {}
 
+class DeleteCategoryEvent extends CategoryEvent {
+  const DeleteCategoryEvent({required this.categoryId});
+  final int categoryId;
+
+  @override
+  List<Object?> get props => [categoryId];
+}
+
 class GetCategoryEvent extends CategoryEvent {}
 
 class AddCategoryEvent extends CategoryEvent {

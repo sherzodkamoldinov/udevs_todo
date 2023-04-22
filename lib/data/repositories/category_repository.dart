@@ -101,7 +101,12 @@ class CategoryRepository {
   }
 
   Future<void> addCategory({required CategoryHiveModel category}) async {
-    await categoryBox.add(category);
+    await categoryBox.put(category.id, category);
+    debugPrint('Added Category Datas Count: ${categoryBox.length}');
+  }
+
+  Future<void> deleteCategory({required int id}) async {
+    await categoryBox.delete(id);
     debugPrint('Added Category Datas Count: ${categoryBox.length}');
   }
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udevs_todo/bloc/category_bloc/category_bloc.dart';
@@ -123,17 +125,19 @@ class _AddCategoryState extends State<AddCategory> {
         WButton(
           onTap: () {
             if (selectedColorIndex != -1 && selectedIconIndex != -1 && catCon.text.trim().isNotEmpty) {
-              BlocProvider.of<CategoryBloc>(context).add(AddCategoryEvent(
-                categoryModel: CategoryHiveModel(
-                  color: selectedColor,
-                  iconPath: '',
-                  gridColor: MyUtils.toColor(selectedColor).withOpacity(0.36).value.toRadixString(16),
-                  title: catCon.text,
-                  id: DateTime.now().millisecondsSinceEpoch,
-                  intIconPath: selectedIcon,
+              BlocProvider.of<CategoryBloc>(context).add(
+                AddCategoryEvent(
+                  categoryModel: CategoryHiveModel(
+                    color: selectedColor,
+                    iconPath: '',
+                    gridColor: MyUtils.toColor(selectedColor).withOpacity(0.36).value.toRadixString(16),
+                    title: catCon.text,
+                    id: Random().nextInt(pow(2, 31).toInt()-1),
+                    intIconPath: selectedIcon,
+                  ),
                 ),
-              ));
-              // Navigator.of(context).pop();
+              );
+              Navigator.of(context).pop();
             } else {
               MyUtils.getMyToast(message: 'Please fill and select!');
             }

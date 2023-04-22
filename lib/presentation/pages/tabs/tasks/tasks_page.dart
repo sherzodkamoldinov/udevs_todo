@@ -6,7 +6,7 @@ import 'package:udevs_todo/bloc/setting_bloc/setting_bloc.dart';
 import 'package:udevs_todo/bloc/todo_bloc/todo_bloc.dart';
 import 'package:udevs_todo/core/assets/colors/app_colors.dart';
 import 'package:udevs_todo/core/assets/fonts/rubik_font/rubik_font.dart';
-import 'package:udevs_todo/presentation/common/widgets/w_scale_animation.dart';
+import 'package:udevs_todo/core/utils/utils.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/home_empty_item.dart';
 import 'package:udevs_todo/presentation/pages/tabs/home/widgets/reminder_delegate.dart';
 import 'package:udevs_todo/presentation/pages/tabs/tasks/widgets/big_category_item.dart';
@@ -55,8 +55,54 @@ class TasksPage extends StatelessWidget {
                       itemCount: state.categories.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 19, mainAxisSpacing: 23.5),
                       itemBuilder: (context, index) {
-                        return BigCategoryItem(
-                          categoryModel: state.categories[index],
+                        return GestureDetector(
+                          onLongPress: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      backgroundColor: AppColors.white,
+                                      title: Text(
+                                        'Do You Agree?',
+                                        style: RubikFont.w400.copyWith(
+                                          fontSize: 22,
+                                          color: AppColors.shipCove,
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              'No',
+                                              style: RubikFont.w500.copyWith(
+                                                fontSize: 18,
+                                                color: AppColors.shipCove,
+                                              ),
+                                            )),
+                                        TextButton(
+                                            onPressed: () {
+                                              if (BlocProvider.of<TodoBloc>(context).getTodosCountByCatgory(state.categories[index].id) == 0) {
+                                                BlocProvider.of<CategoryBloc>(context).add(DeleteCategoryEvent(categoryId: state.categories[index].id));
+                                                Navigator.of(context).pop();
+                                              } else {
+                                                MyUtils.getMyToast(message: "Can't Delete becouse in this category have tasks");
+                                                Navigator.of(context).pop();
+                                              }
+                                            },
+                                            child: Text(
+                                              'Yes',
+                                              style: RubikFont.w500.copyWith(
+                                                fontSize: 18,
+                                                color: AppColors.shipCove,
+                                              ),
+                                            )),
+                                      ],
+                                    ));
+                          },
+                          child: BigCategoryItem(
+                            categoryModel: state.categories[index],
+                          ),
                         );
                       },
                     ),
