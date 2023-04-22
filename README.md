@@ -47,9 +47,8 @@ Udevs Todo - bu turli xil vazifalarni qo'shish va vazifalni qilishda ulgurishga 
 
 <img src="/redme_asset/delete%20category.png" alt="drawing" width="200"/>
 
-![rasim qoyish uchun](/redme_asset/delete%20category.png)
 
-
+***
 ###___Dasturdagi Packagelar___
 * [lottie](https://pub.dev/packages/lottie)
     - _Lottie formatdagi animatsiyalar_
@@ -69,3 +68,4 @@ Udevs Todo - bu turli xil vazifalarni qo'shish va vazifalni qilishda ulgurishga 
     - _state management_
 * [flutflutter_local_notificationster_bloc](https://pub.dev/packages/flutter_local_notifications)
     - _xabarnoma bildirish uchun_
+    
